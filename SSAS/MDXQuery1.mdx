@@ -1,0 +1,62 @@
+---------------------------------1
+select [Measures].[Qty] on columns from ex1;
+
+---------------------------2
+select {[Measures].[Qty],[Measures].[Qty Total Price]}  on columns from ex3;
+
+------------------------------3
+select [Measures].allmembers on columns from ex3;
+
+--------------------------------4
+WITH 
+    MEMBER [Measures].[Total_Quantity] AS 
+        SUM([Customer Dim 1].[Customer Name].allMEMBERS,[Measures].[Qty])
+select [Customer Dim 1].[Customer Name].allmembers as customer on rows  ,
+	  {[Measures].[Qty] as Quantity,[Measures].[Total_Quantity]} on columns
+from ex3;
+
+------------------------------------5
+select [Customer Dim 1].[Customer Name].allmembers as customer on rows  ,
+	  [Measures].[Qty] as Quantity on columns
+from ex3;
+
+---------------------------------------6
+select [Customer Dim 1].[Customer Name].allmembers as customer on rows  ,
+	  {[Measures].[Qty] as Quantity,[Measures].[Fact Sales Count]} on columns
+from ex3
+where [Time Dim 2].[Calendar Year].&[2007];
+
+-----------------------------------------7
+select [Time Dim 2].[Calendar Year].[Calendar Year].allmembers on Rows ,
+	   [Measures].[Qty] as Quantity on columns
+from ex3
+where [Customer Dim 1].[Customer Name].&[Customer1];
+
+---------------------------------------------8
+SELECT 
+([Product Dim 2].[Product Name].[Product Name].allmembers,
+[Customer Dim 1].[Customer Name].allmembers) ON ROWS,
+[Measures].[Qty] ON COLUMNS
+FROM ex3;
+---------------------------------------------9
+SELECT 
+([Time Dim 2].[Calendar Year].[Calendar Year].allmembers,
+[Product Dim 2].[Product Name].[Product Name].allmembers,
+[Customer Dim 1].[Customer Name].allmembers) ON ROWS,
+[Measures].[Qty] ON COLUMNS
+FROM ex3;
+-----------------------------------------------10
+SELECT  [Measures].[Qty] on columns
+FROM ex3
+WHERE ([Customer Dim 1].[Customer ID].&[1] , [Product Dim 2].[Product ID].&[1] , [Time Dim 2].[Calendar Year].&[2007]);
+
+--------------------------------------------11
+with
+	member[Measures].[number_of_customers] as
+    count([Customer Dim 1].[Customer ID].[Customer ID])
+select [Channel Dim].[Country].&[Egypt] on rows, number_of_customers on columns;
+from ex3
+--------------------------------------------12
+select ([Channel Dim].[Channal ID].[Channal ID].allmembers,[Time Dim 2].[Calendar Year].[Calendar Year].allmembers) on rows,
+		[Measures].[Qty]  on columns		
+from ex3  
