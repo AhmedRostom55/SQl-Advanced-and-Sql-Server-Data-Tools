@@ -38,14 +38,11 @@ group by Dnum,Dname
 having avg (Salary)<(select avg(Salary) from Employee)
 
 ----7
-select fname+' '+lname as Fullname ,Pname from Employee E, Departments D ,Project P
-where D.Dnum=E.Dno and E.Dno=P.Dnum
-order by E.Dno,e.Lname
-,E.Fname
-----8
-select top(2) salary from Employee
-order by Salary desc
+select E.* from Employee E,Works_on W,Project P
+where E.SSN=W.ESSn and W.Pno=P.Pnumber
+order by E.Dno,E.Lname,E.Fname
 
+----8
 select MAX(salary) from Employee
 union all
 select max(salary) from Employee
@@ -56,17 +53,21 @@ select Fname+' '+Lname as Fullname from Employee
 where fname in (select Dependent_name from Dependent)
 
 -----10
-update Employee 
-set Salary+=(.3*Salary)
-from Employee,Works_on,Project
-where ssn=ESSn and Pnumber=pno and Pname='al rabwah'
+update Employee
+	set Salary *= 1.3
+from Employee E,Works_on W,Project P
+where E.SSN=W.ESSn and W.Pno=P.Pnumber and P.Pname='Al Rabwah'
 
 ------11
 
 select fname,lname,SSN from Employee
 where ssn in (select ESSN from Dependent)
 
-
+select fname,lname,SSN from Employee E
+where Exists(
+	select 1 from Dependent D
+	where E.SSN=D.ESSN
+)
 
 
 ----12
@@ -80,17 +81,19 @@ update Departments set  MGRSSN=112233 where Dnum=20
 update Employee set Superssn =102672 where SSN=102660
 
 -----14
-Select * from Dependent
-where ESSN = 2233444
+delete from Dependent
+where ESSN=223344
 
-Select * from Departments
-where MGRSSN = 2233444
+update Departments 
+	set MGRSSN=102672
+where MGRSSN=223344
 
-select * from Employee
-Where Superssn =  2233344
+update Employee
+	set Superssn=102672
+where Superssn = 223344
 
-select * from Works_on
-Where ESSn =  2233344
+delete from Works_on
+where ESSn=223344
 
 delete from Employee
-where ssn = 223344
+where ssn=223344

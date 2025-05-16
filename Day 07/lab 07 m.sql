@@ -62,17 +62,17 @@ as
 SELECT * FROM get_values(2, 10)
 
 ---------------------------3
-create function get_deptname_StudFullName (@StudNo int)
+create function get_deptname_StudName (@StudNo int)
 Returns table 
 as 
 return
 (
-		select st_id ,dept_id ,St_Fname+''+St_Lname as fullname from Student
-		where st_id = @StudNo
+	select S.St_Fname+' '+S.St_Lname as Full_Name ,D.Dept_Name,s.St_Id  from Student S,Department D
+	where S.Dept_Id=D.Dept_Id and S.St_Id=@StudNo
 
 )
 
-select * from get_deptname_StudFullName(10)
+select * from get_deptname_StudName(10)
 
 
 -------------------4
@@ -125,9 +125,6 @@ begin
 	else if @string = 'full name' 
 		insert into @t 
 		select isnull(St_Fname,' ')+''+ isnull(St_lname,' ') as fullname from Student
-	else 
-		insert into @t 
-		select 'First name & last name are not null'
 	Return
 End
 
@@ -135,5 +132,7 @@ SELECT * FROM gets_Name('full name')
 
 
 -------------------------------7
+select St_Id,substring(St_Fname,1,len(st_fname)-1) from Student
+
 
 select  St_Id ,left( St_Fname,len(st_Fname)-1) from Student

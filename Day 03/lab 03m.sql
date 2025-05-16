@@ -21,10 +21,10 @@ where Pname like'a%'
 Select * from Employee
 where Dno=30 and Salary between 1000 and 2000
 ---7
-Select E.* from Employee E inner join Works_for W 
+Select E.* from Employee E inner join Works_on W 
 on e.SSN=w.ESSn
 inner join Project p
-on p.Pnumber=W.Pno
+on W.Pno=p.Pnumber
 where  p.Dnum =10 and W.Hours>=10 and p.Pname='AL Rabwah'
 
 ----8
@@ -33,9 +33,12 @@ from Employee x ,Employee y
 where y.SSN= x.Superssn and y.fname='Kamel' 
 
 ----9
-Select E.fname,P.Pname from Employee E ,Project P
-where  E.Dno=P.Dnum
-order by  p.Pname
+select E.Fname+' '+E.Lname , p.Pname from Employee E 
+inner join Works_on w
+on E.SSN=w.ESSn
+inner join Project P
+on W.Pno=P.Pnumber
+order by P.Pname
 
 ----10
 
@@ -64,5 +67,5 @@ values('Mahmoud','Hamdy',102660,8/20/1995,'Qalamsha','m',30)
 -----15
 
 update Employee
-	set Salary=Salary*1.20
-where Fname='Mahmoud' and Lname='Hamdy'
+	set  Salary *= 1.2
+where SSN=102672

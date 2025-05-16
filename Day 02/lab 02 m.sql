@@ -5,7 +5,7 @@ select Fname,Lname,Salary,Dno from Employee
 ---3
 select Pname,Plocation,Dnum from Project 
 ---4
-select Fname+' '+Lname as fullname , salary * 1.10  as ANNUAL_SALARY FROM Employee
+select Fname+' '+Lname as fullname , salary *12 * 0.10  as ANNUAL_SALARY FROM Employee
 ---5
 SELECT SSN ,Fname+' '+Lname as fullname FROM Employee
 WHERE Salary>1000

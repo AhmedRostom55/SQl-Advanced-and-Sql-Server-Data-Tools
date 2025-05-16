@@ -44,4 +44,4 @@ select *  From (select *,ROW_NUMBER() over(partition by dept_id order by salary 
 where RN <=2
 -----15
 select *  From (select *,ROW_NUMBER() over(partition by dept_id order by NewID())  as Random from Instructor ) as Newtable
-where Random <=2
+where Random =1

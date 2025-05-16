@@ -39,6 +39,8 @@ order by ListPrice
 Select rowguid,Name, SalesPersonID, Demographics into store_Archive
 from Sales.Store
 
+select * from store_Archive
+
 Select rowguid,Name, SalesPersonID, Demographics into store_Archive1
 from Sales.Store
 where 1=2
